@@ -71,7 +71,7 @@ int tamanho(tlista *l){
 int insert(tlista *l, contato c, int p){
     
     if(p>tamanho(l) || p<0){ ////encontrar posição p; se não existe ou não é a ultima retornar erro
-        printf("Posicao invalida!");
+        printf("Posicao invalida!\n");
         return 0;
     }
     
@@ -122,39 +122,58 @@ int insert(tlista *l, contato c, int p){
 	  }
 	  
 	   (l->size)++;
-	   printf("Contato inserido com sucesso na lista!\n");
+	   printf("\nContato inserido com sucesso na lista!\n");
 	   return 1;
 	}
 	else{
-	   printf("Erro na alocacao da memoria. Tente novamente.\n");
+	   printf("\nErro na alocacao da memoria. Tente novamente.\n");
 	   return 0;
 	}
     
 }//insert
 
+int posicao(tlista *l, contato c) {
+    tno* atual = l->first;
+    int pos = 0;
+
+    char entrada[200];
+    strcpy(entrada, c.sobrenome);
+    strcat(entrada, c.nome);
+
+    while (atual != NULL) {
+        char comparada[200];
+        strcpy(comparada, atual->dado.sobrenome);
+        strcat(comparada, atual->dado.nome);
+        
+        if (strcmp(entrada, comparada) <= 0) {// Se a entrada for menor ou ingual, a posicao de insercoa eh a atual
+            return pos;
+        }
+        
+        atual = atual->next;
+        pos++;
+    }
+    return l->size;//se chegar ao final da lista, entra no final.
+}
+
 void lerContato(contato* c){
-    printf("Informe os dados do novo contato: \n");
-    printf("Nome: \n");
+    printf("Informe os dados do novo contato... \n");
+    printf("Nome: ");
     scanf("%99s",c->nome);getchar();//limita caracteres para impedir estouro de buffer
-    printf("Sobrenome: ");
+    printf("\nSobrenome: ");
     scanf("%99s",c->sobrenome);getchar();
-    printf("Email: \n");
+    printf("\nEmail: ");
     scanf("%149s",c->email);getchar();
-    printf("Telefone: \n");
+    printf("\nTelefone: ");
     scanf("%14s",c->telefone);getchar();
-    printf("CPF: \n");
+    printf("\nCPF: ");
     scanf("%14s",c->cpf);getchar();
 }//lerContato
 
-contato* criarContato(){
-    contato* c = (contato*) malloc(sizeof(contato));
-    if(c==NULL){
-        printf("Erro na alocação de memória!\n");
-        return NULL;
-    }
-    lerContato(c);
+contato criarContato(){
+    contato c;
+    lerContato(&c);
     return c;
-}//criarContato
+}
 
 
 
@@ -173,45 +192,48 @@ void listar(tlista *l){
 }//listar
 
 
-//NÃO IMPLEMENTADO. ISSO É RESTO DO CODIGO DE PILHAS
-int remover(tfila *f, int *numero){
-    if(empty(f)==0){// VERIFICAR SE NÃO ESTÁ VAZIA;
-        tipoNo* temp = f->head;// COPIAR INFORMAÇÕES DO PRIMEIRO
-        *numero = temp->dado;
-        if(f->head ==f->tail){// SE HEAD==TAIL ENTAO AMBOS RECEBERÃO NULL
-            f->head = NULL;
-            f->tail =NULL;
-        }
-        else{
-            f->head = f->head->prox;//ANDAR A FILA (F->HEAD=F->HEAD->PROX)
-            f->head->ant = NULL;//O anterior do novo Head, aponta para NULO (F->HEAD->ANT=NULL)
-        }
-        (f->size)--;//F->SIZE--;
-        free(temp);//DESALOCAR MEMÓRIA
-        return 1;
-    }
-    else{
-        printf("Comando remover não executado. Fila está vazia!\n");
-        return 0;
-    } 
-}//remover
-
-
 int main()
 {
 
-//NÃO IMPLEMENTADO. ISSO É RESTO DO CODIGO DE PILHAS.   
-    //1.CRIAR FILA DE NÚMEROS INTEIROS
-    tfila fila;
-    tfila *p_fila =&fila; 
-    criar(p_fila);
+    //Cria lista
+    tlista lista;
+    tlista *plista =&lista; 
+    criar(plista);
     
-    //2. INSERIR 7 NÚMEROS
-    int numeros[]={1,2,3,4,5,6,7};
-    for(int i=0; i<7;i++){
-        inserir(p_fila,numeros[i]);
-    }
+    //Insere 1ro contato na lista
+    contato a = criarContato();
+    insert(plista,a,posicao(plista,a));
+    listar(plista);
+    
+    //Insere 2do contato na lista
+    contato b = criarContato();
+    insert(plista,b,posicao(plista,b));
+    listar(plista);
+    
+    //Insere 3ro contato na lista
+    contato c = criarContato();
+    insert(plista,c,posicao(plista,c));
+    listar(plista);
+    
+    //Insere 4to contato na lista
+    contato d = criarContato();
+    insert(plista,d,posicao(plista,d));
+    listar(plista);
+    
+    
+    
+    
+    
+    //printf("Criando novo contato...\n");
+    //contato* novo = criarContato();  // Cria e preenche novo contato
 
+    //if (novo != NULL) {
+   //     insert(&lista, *novo, lista.size); // Insere no final da lista
+   //     free(novo);  // Libera memória alocada dinamicamente
+   // }
+
+//NÃO IMPLEMENTADO. ISSO É RESTO DO CODIGO DE PILHAS.    
+    /*
     //3. REMOVER 2 NÚMEROS, 
     int aux=0;
     int *p_aux = &aux;
@@ -240,6 +262,7 @@ int main()
     primeiro(p_fila,&restante);
     printf("Primeiro na fila: %d\n",restante);
     printf("Ultimo na fila: %d\n",p_fila->tail->dado);
+    */
 
 
 
