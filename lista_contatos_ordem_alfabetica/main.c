@@ -32,46 +32,95 @@ https://docs.google.com/presentation/d/1XlDy5KNN2HrbIcn3nBvt0UjBHLuN7NWWwz3B1D0-
 int main()
 {
 
-//NÃO IMPLEMENTADO. ISSO É RESTO DO CODIGO DE PILHAS.   
-    //1.CRIAR FILA DE NÚMEROS INTEIROS
-    tfila fila;
-    tfila *p_fila =&fila; 
-    criar(p_fila);
+    //Iniciacao da variaveis, criacao da lista
+    tlista lista;
+    tlista *plista =&lista; 
+    criar(plista);
     
-    //2. INSERIR 7 NÚMEROS
-    int numeros[]={1,2,3,4,5,6,7};
-    for(int i=0; i<7;i++){
-        inserir(p_fila,numeros[i]);
-    }
-
-    //3. REMOVER 2 NÚMEROS, 
-    int aux=0;
-    int *p_aux = &aux;
-    remover(p_fila, p_aux);
-    printf("Numero removido da fila: %d\n", aux);
-    int aux2=0;
-    int *p_aux2 = &aux2;
-    remover(p_fila, p_aux2);
-    printf("Numero removido da fila: %d\n", aux2);
+    int opcao = 0;
     
-    //4. SOMAR E INSERIR O RESULTADO  NA FILA,
-    int soma=0;
-    soma = aux + aux2;
-    inserir(p_fila,soma);
-
-    //5.REPITA 3 E 4 ATÉ QUE RESTE APENAS 1 ELEMENTO NA FILA.
-    while(tamanho(p_fila)>1){
-        remover(p_fila,p_aux);
-        remover(p_fila,p_aux2);
-        soma = aux+aux2;
-        inserir(p_fila,soma);
-    }
+    //Insere 1ro contato na lista
+    contato a = criarContato();
+    insert(plista,a,posicao(plista,a));
+    listar(plista);
     
-    //Validação
-    int restante;
-    primeiro(p_fila,&restante);
-    printf("Primeiro na fila: %d\n",restante);
-    printf("Ultimo na fila: %d\n",p_fila->tail->dado);
+    //Insere 2do contato na lista
+    contato b = criarContato();
+    insert(plista,b,posicao(plista,b));
+    listar(plista);
+    
+    //Insere 3ro contato na lista
+    contato c = criarContato();
+    insert(plista,c,posicao(plista,c));
+    listar(plista);
+    
+    //Insere 4to contato na lista
+    contato d = criarContato();
+    insert(plista,d,posicao(plista,d));
+    listar(plista);
+    
+    //Menu - Laco de repeticao do while para permanecer no menu
+    
+    do{
+        //Menu de opcoes
+        printf("\n<<< SISTEMA DE CODIGOS NUMERICOS >>>\n");
+	    printf("Escolha um opcao:\n");
+	    printf("1 - Consultar\n");
+	    printf("2 - Inserir\n");
+	    printf("3 - Remover\n");
+	    printf("4 - Listar\n");
+	    printf("5 - Teste Funcionamento")
+	    printf("0 - Sair\n");
+	    
+	    if (scanf("%d", &opcao) != 1) {
+            printf("Entrada invalida! Digite um numero inteiro.\n");
+            while (getchar() != '\n'); 
+            opcao = -1;
+            continue;
+        }
+        getchar();
+	    
+	    switch(opcao){
+	        
+	        //OPCAO CONSULTA DE CODIGO
+	        case 1:
+	            consultar(lista, ocupados);
+	            exibe_lista(lista, ocupados, tamanho);
+                break;
+	           
+		    //OPCAO INSERCAO DE CODIGO
+		    case 2:
+		        ocupados = inserir(lista, ocupados);
+		        exibe_lista(lista, ocupados, tamanho);
+		      break;
+		      
+		    // OPCAO EXCLUIR
+		    case 3:
+		        ocupados = excluir(lista, ocupados);
+                exibe_lista(lista, ocupados, tamanho);
+                break;
+		    //OPCAO EXIBIR      
+		    case 4:
+		        exibe_lista(lista, ocupados, tamanho);
+		        printf("Tamanho total da lista: %d\n", tamanho);
+		        break;
+		    case 5:
+		        //implementar
+		        break;
+		    default:
+		    printf("Opção inválida.\n");
+		    
+		    
+		    
+	    }//switch(opcao)
+	    
+	    
+        
+        
+    }while(opcao!=0);
+    
+    
+   
 
 
 
